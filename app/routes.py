@@ -9,7 +9,10 @@ import os
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('client_dashboard'))
+    form = LoginForm()
+    return render_template('home.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

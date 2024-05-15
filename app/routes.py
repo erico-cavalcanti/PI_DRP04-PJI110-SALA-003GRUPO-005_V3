@@ -21,9 +21,17 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.senha.data).decode('utf-8')
-        cliente = Cliente(nome_completo=form.nome_completo.data, cpf=form.cpf.data, data_nascimento=form.data_nascimento.data,
-                          sexo=form.sexo.data, telefone=form.telefone.data, email=form.email.data, usuario=form.usuario.data,
-                          senha=hashed_password, frase_secreta=form.frase_secreta.data, dica_frase_secreta=form.dica_frase_secreta.data)
+        cliente = Cliente(
+            nome_completo=form.nome_completo.data, 
+            cpf=form.cpf.data, 
+            data_nascimento=form.data_nascimento.data,
+            sexo=form.sexo.data, 
+            telefone=form.telefone.data,
+            email=form.email.data, 
+            usuario=form.usuario.data,
+            senha=hashed_password,
+            frase_secreta=form.frase_secreta.data,
+            dica_frase_secreta=form.dica_frase_secreta.data)
         db.session.add(cliente)
         db.session.commit()
         flash('Sua conta foi criada! Agora você pode fazer login', 'success')

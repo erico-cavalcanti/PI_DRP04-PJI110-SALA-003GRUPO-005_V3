@@ -9,7 +9,7 @@ class RegistrationForm(FlaskForm):
     data_nascimento = DateField('Data de Nascimento', validators=[DataRequired()])
     sexo = SelectField('Sexo', choices=[('M', 'Masculino'), ('F', 'Feminino'), ('NI', 'Não Informar')], validators=[DataRequired()])
     telefone = StringField('Telefone', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired()])
     usuario = StringField('Usuário', validators=[DataRequired(), Length(min=2, max=20)])
     senha = PasswordField('Senha', validators=[DataRequired()])
     confirmacao_senha = PasswordField('Confirmação de Senha', validators=[DataRequired(), EqualTo('senha')])

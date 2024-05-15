@@ -23,6 +23,19 @@ header, footer {
     left: 10px;
 }
 
+.btn-logout {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
 main {
     flex: 1;
     display: flex;

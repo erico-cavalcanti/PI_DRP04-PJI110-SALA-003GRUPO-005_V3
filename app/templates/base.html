@@ -9,6 +9,9 @@
 <body>
     <header>
         <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo do Salão" class="logo">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        {% endif %}
     </header>
     <main>
         {% block content %}{% endblock %}

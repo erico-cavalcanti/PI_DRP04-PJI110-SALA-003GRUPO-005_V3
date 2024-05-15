@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <h2>Admin Dashboard</h2>
+    <h3>Clientes</h3>
+    <ul>
+        {% for cliente in clientes %}
+            <li>{{ cliente.nome_completo }} - {{ cliente.email }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Profissionais</h3>
+    <ul>
+        {% for profissional in profissionais %}
+            <li>{{ profissional.nome_completo }} - {{ profissional.especialidade }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Serviços</h3>
+    <ul>
+        {% for servico in servicos %}
+            <li>{{ servico.nome_servico }} - {{ servico.valor }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Agendamentos</h3>
+    <ul>
+        {% for agendamento in agendamentos %}
+            <li>{{ agendamento.cliente_cpf }} - {{ agendamento.profissional_cpf }} - {{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

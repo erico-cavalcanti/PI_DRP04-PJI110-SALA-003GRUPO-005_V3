@@ -1,0 +1,118 @@
+/* Estilos globais */
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header, footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #222;
+}
+
+.logo {
+    height: 200px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Estilos dos formulários */
+.login-container, .cadastro-container, .dashboard-container, .agendamento-container {
+    width: 300px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"], input[type="datetime-local"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    color: black;
+}
+
+/* Estilos dos botões */
+button, .btn-login, .btn-submit, .btn-aceitar, .btn-recusar, .btn-cancelar, .btn-remarcar {
+    width: 100%;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-aceitar {
+    background-color: blue;
+}
+
+.btn-recusar, .btn-cancelar {
+    background-color: red;
+}
+
+.btn-remarcar {
+    background-color: orange;
+}
+
+/* Links */
+.register-buttons a, .forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: lightgrey;
+}
+
+/* Footer */
+footer {
+    background-color: #222;
+    color: lightgrey;
+    padding: 10px;
+}
+
+.agendamentos {
+    display: flex;
+    flex-direction: column;
+}
+
+.agendamento {
+    border: 1px solid grey;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .login-container, .cadastro-container, .dashboard-container, .agendamento-container {
+        width: 90%;
+    }
+}

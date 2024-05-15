@@ -5,10 +5,10 @@ from app.models import Cliente
 
 class RegistrationForm(FlaskForm):
     nome_completo = StringField('Nome Completo', validators=[DataRequired(), Length(min=2, max=100)])
-    cpf = StringField('CPF', validators=[DataRequired(), Length(min=11, max=11)])
+    cpf = StringField('CPF', validators=[DataRequired(), Length(min=10, max=11)])
     data_nascimento = DateField('Data de Nascimento', validators=[DataRequired()])
-    sexo = SelectField('Sexo', choices=[('M', 'Masculino'), ('F', 'Feminino')], validators=[DataRequired()])
-    telefone = StringField('Telefone', validators=[DataRequired(), Length(min=10, max=15)])
+    sexo = SelectField('Sexo', choices=[('M', 'Masculino'), ('F', 'Feminino'), ('NI', 'Não Informar')], validators=[DataRequired()])
+    telefone = StringField('Telefone', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     usuario = StringField('Usuário', validators=[DataRequired(), Length(min=2, max=20)])
     senha = PasswordField('Senha', validators=[DataRequired()])

@@ -3,7 +3,7 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Cliente.query.get(int(user_id))
+    return Cliente.query.get(user_id)
 
 class Cliente(db.Model, UserMixin):
     __tablename__ = 'tb_cadastro_cliente'
@@ -17,6 +17,9 @@ class Cliente(db.Model, UserMixin):
     senha = db.Column(db.String(60), nullable=False)
     frase_secreta = db.Column(db.String(100), nullable=False)
     dica_frase_secreta = db.Column(db.String(100), nullable=False)
+
+    def get_id(self):
+        return self.cpf
 
 class Profissional(db.Model):
     __tablename__ = 'tb_cadastro_profissional'

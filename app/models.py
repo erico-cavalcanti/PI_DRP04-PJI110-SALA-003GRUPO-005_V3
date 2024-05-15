@@ -10,7 +10,7 @@ class Cliente(db.Model, UserMixin):
     cpf = db.Column(db.String(11), primary_key=True)
     nome_completo = db.Column(db.String(100), nullable=False)
     data_nascimento = db.Column(db.Date, nullable=False)
-    sexo = db.Column(db.String(1), nullable=False)
+    sexo = db.Column(db.String(10), nullable=False)
     telefone = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     usuario = db.Column(db.String(20), unique=True, nullable=False)

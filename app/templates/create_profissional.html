@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Cadastrar Profissional</h2>
+    <form method="POST" action="{{ url_for('create_profissional') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.cpf.label }} {{ form.cpf(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.nome_completo.label }} {{ form.nome_completo(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.telefone.label }} {{ form.telefone(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }} {{ form.email(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.especialidade.label }} {{ form.especialidade(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{% if form.csrf_token %}Editar Cliente{% else %}Novo Cliente{% endif %}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.nome_completo.label }} {{ form.nome_completo(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.cpf.label }} {{ form.cpf(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.data_nascimento.label }} {{ form.data_nascimento(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.sexo.label }} {{ form.sexo(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.telefone.label }} {{ form.telefone(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }} {{ form.email(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.usuario.label }} {{ form.usuario(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.senha.label }} {{ form.senha(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.frase_secreta.label }} {{ form.frase_secreta(size=32, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.dica_frase_secreta.label }} {{ form.dica_frase_secreta(size=32, class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+{% endblock %}

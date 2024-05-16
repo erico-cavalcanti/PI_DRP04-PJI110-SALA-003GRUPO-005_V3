@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-container">
+    <h2>Cadastrar Agendamento</h2>
+    <form method="POST" action="{{ url_for('create_agendamento') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.cliente_cpf.label }} {{ form.cliente_cpf(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.telefone_cliente.label }} {{ form.telefone_cliente(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.servico_id.label }} {{ form.servico_id(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.especialidade.label }} {{ form.especialidade(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.profissional_cpf.label }} {{ form.profissional_cpf(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.data_agendamento.label }} {{ form.data_agendamento(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.hora_agendamento.label }} {{ form.hora_agendamento(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.valor.label }} {{ form.valor(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

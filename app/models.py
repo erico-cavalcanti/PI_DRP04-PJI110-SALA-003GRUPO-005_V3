@@ -17,6 +17,7 @@ class Cliente(db.Model, UserMixin):
     senha = db.Column(db.String(60), nullable=False)
     frase_secreta = db.Column(db.String(100), nullable=False)
     dica_frase_secreta = db.Column(db.String(100), nullable=False)
+    agendamentos = db.relationship('Agendamento', backref='cliente', lazy=True)
 
     def get_id(self):
         return self.cpf
@@ -28,6 +29,7 @@ class Profissional(db.Model):
     telefone = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     especialidade = db.Column(db.String(100), nullable=False)
+    agendamentos = db.relationship('Agendamento', backref='profissional', lazy=True)
 
 class Servico(db.Model):
     __tablename__ = 'tb_cadastro_servico'
@@ -36,6 +38,7 @@ class Servico(db.Model):
     especialidade = db.Column(db.String(100), nullable=False)
     duracao_estimada = db.Column(db.String(20), nullable=False)
     valor = db.Column(db.Float, nullable=False)
+    agendamentos = db.relationship('Agendamento', backref='servico', lazy=True)
 
 class Agendamento(db.Model):
     __tablename__ = 'tb_agendamento'

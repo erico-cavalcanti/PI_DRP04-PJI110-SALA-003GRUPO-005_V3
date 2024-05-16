@@ -2,29 +2,99 @@
 {% block content %}
 <div class="dashboard-container">
     <h2>Admin Dashboard</h2>
-    <h3>Clientes</h3>
-    <ul>
-        {% for cliente in clientes %}
-            <li>{{ cliente.nome_completo }} - {{ cliente.email }}</li>
-        {% endfor %}
-    </ul>
+
     <h3>Profissionais</h3>
-    <ul>
-        {% for profissional in profissionais %}
-            <li>{{ profissional.nome_completo }} - {{ profissional.especialidade }}</li>
-        {% endfor %}
-    </ul>
+    <a href="{{ url_for('create_profissional') }}" class="btn btn-primary mb-2">Novo Profissional</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome Completo</th>
+                <th>Especialidade</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profissional in profissionais %}
+                <tr>
+                    <td>{{ profissional.nome_completo }}</td>
+                    <td>{{ profissional.especialidade }}</td>
+                    <td>{{ profissional.telefone }}</td>
+                    <td>{{ profissional.email }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_profissional', cpf=profissional.cpf) }}">📝</a>
+                        <form action="{{ url_for('delete_profissional', cpf=profissional.cpf) }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h3>Serviços</h3>
-    <ul>
-        {% for servico in servicos %}
-            <li>{{ servico.nome_servico }} - {{ servico.valor }}</li>
-        {% endfor %}
-    </ul>
+    <a href="{{ url_for('create_servico') }}" class="btn btn-primary mb-2">Novo Serviço</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome do Serviço</th>
+                <th>Especialidade</th>
+                <th>Duração Estimada</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servico in servicos %}
+                <tr>
+                    <td>{{ servico.nome_servico }}</td>
+                    <td>{{ servico.especialidade }}</td>
+                    <td>{{ servico.duracao_estimada }}</td>
+                    <td>{{ servico.valor }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_servico', id=servico.id) }}">📝</a>
+                        <form action="{{ url_for('delete_servico', id=servico.id) }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h3>Agendamentos</h3>
-    <ul>
-        {% for agendamento in agendamentos %}
-            <li>{{ agendamento.cliente_cpf }} - {{ agendamento.profissional_cpf }} - {{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</li>
-        {% endfor %}
-    </ul>
+    <a href="{{ url_for('create_agendamento') }}" class="btn btn-primary mb-2">Novo Agendamento</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cliente CPF</th>
+                <th>Profissional CPF</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Serviço</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos %}
+                <tr>
+                    <td>{{ agendamento.cliente_cpf }}</td>
+                    <td>{{ agendamento.profissional_cpf }}</td>
+                    <td>{{ agendamento.data_agendamento }}</td>
+                    <td>{{ agendamento.hora_agendamento }}</td>
+                    <td>{{ agendamento.servico_id }}</td>
+                    <td>{{ agendamento.valor }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_agendamento', id=agendamento.id) }}">📝</a>
+                        <form action="{{ url_for('delete_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

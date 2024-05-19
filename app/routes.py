@@ -10,8 +10,9 @@ from datetime import date
 @app.route('/')
 @app.route('/home')
 def home():
+    admin_email = os.getenv('ADMIN_EMAIL')
     if current_user.is_authenticated:
-        if current_user.email == 'salaoanc@gmail.com':
+        if current_user.email == admin_email:
             return redirect(url_for('admin_dashboard'))
         return redirect(url_for('client_dashboard'))
     form = LoginForm()

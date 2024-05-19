@@ -7,10 +7,11 @@ from flask_mail import Message
 import os
 from datetime import date
 
+admin_email = 'admin@anc-studio.com.br'
+
 @app.route('/')
 @app.route('/home')
 def home():
-    admin_email = os.getenv('ADMIN_EMAIL')
     if current_user.is_authenticated:
         if current_user.email == admin_email:
             return redirect(url_for('admin_dashboard'))
@@ -45,7 +46,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        if current_user.email == 'salaoanc@gmail.com':
+        if current_user.email == admin_email:
             return redirect(url_for('admin_dashboard'))
         return redirect(url_for('client_dashboard'))
     form = LoginForm()
@@ -54,7 +55,7 @@ def login():
         if cliente and bcrypt.check_password_hash(cliente.senha, form.senha.data):
             login_user(cliente, remember=True)
             next_page = request.args.get('next')
-            if cliente.email == 'salaoanc@gmail.com':
+            if cliente.email == admin_email:
                 return redirect(url_for('admin_dashboard'))
             return redirect(next_page) if next_page else redirect(url_for('client_dashboard'))
         else:
@@ -96,7 +97,7 @@ def logout():
 @app.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
-    if current_user.email != 'salaoanc@gmail.com':
+    if current_user.email != admin_email:
         return redirect(url_for('home'))
     clientes = Cliente.query.all()
     profissionais = Profissional.query.all()

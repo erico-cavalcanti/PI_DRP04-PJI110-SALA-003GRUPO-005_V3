@@ -5,6 +5,7 @@ from app.models import Cliente, Profissional, Servico, Agendamento
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 import os
+from datetime import date
 
 @app.route('/')
 @app.route('/home')
@@ -105,8 +106,77 @@ def admin_dashboard():
 @app.route('/client_dashboard')
 @login_required
 def client_dashboard():
-    agendamentos = Agendamento.query.filter_by(cliente_cpf=current_user.cpf).all()
-    return render_template('client_dashboard.html', agendamentos=agendamentos)
+    agendamentos_abertos = Agendamento.query.filter(
+        Agendamento.cliente_cpf == current_user.cpf,
+        Agendamento.data_agendamento >= date.today()
+    ).all()
+    agendamentos_concluidos = Agendamento.query.filter(
+        Agendamento.cliente_cpf == current_user.cpf,
+        Agendamento.data_agendamento < date.today()
+    ).all()
+    return render_template('client_dashboard.html', 
+                           agendamentos_abertos=agendamentos_abertos, 
+                           agendamentos_concluidos=agendamentos_concluidos)
+
+@app.route('/agendar', methods=['GET', 'POST'])
+@login_required
+def agendar():
+    form = AgendamentoForm()
+    if form.validate_on_submit():
+        agendamento = Agendamento(
+            cliente_cpf=current_user.cpf,
+            telefone_cliente=current_user.telefone,
+            servico_id=form.servico.data,
+            especialidade=Servico.query.get(form.servico.data).especialidade,
+            profissional_cpf=form.profissional.data,
+            data_agendamento=form.data_agendamento.data,
+            hora_agendamento=form.hora_agendamento.data,
+            valor=Servico.query.get(form.servico.data).valor
+        )
+        db.session.add(agendamento)
+        db.session.commit()
+        flash('Agendamento realizado com sucesso!', 'success')
+        return redirect(url_for('client_dashboard'))
+    return render_template('create_agendamento.html', title='Agendar Serviço', form=form)
+
+# Renomeando endpoint para evitar conflito
+@app.route('/editar_agendamento/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editar_agendamento(id):
+    agendamento = Agendamento.query.get_or_404(id)
+    if agendamento.cliente_cpf != current_user.cpf:
+        flash('Você não tem permissão para editar este agendamento.', 'danger')
+        return redirect(url_for('client_dashboard'))
+    form = AgendamentoForm()
+    if form.validate_on_submit():
+        agendamento.servico_id = form.servico.data
+        agendamento.especialidade = Servico.query.get(form.servico.data).especialidade
+        agendamento.profissional_cpf = form.profissional.data
+        agendamento.data_agendamento = form.data_agendamento.data
+        agendamento.hora_agendamento = form.hora_agendamento.data
+        agendamento.valor = Servico.query.get(form.servico.data).valor
+        db.session.commit()
+        flash('Agendamento atualizado com sucesso!', 'success')
+        return redirect(url_for('client_dashboard'))
+    elif request.method == 'GET':
+        form.servico.data = agendamento.servico_id
+        form.profissional.data = agendamento.profissional_cpf
+        form.data_agendamento.data = agendamento.data_agendamento
+        form.hora_agendamento.data = agendamento.hora_agendamento
+    return render_template('edit_agendamento.html', title='Editar Agendamento', form=form)
+
+# Renomeando endpoint para evitar conflito
+@app.route('/excluir_agendamento/<int:id>', methods=['POST'])
+@login_required
+def excluir_agendamento(id):
+    agendamento = Agendamento.query.get_or_404(id)
+    if agendamento.cliente_cpf != current_user.cpf:
+        flash('Você não tem permissão para deletar este agendamento.', 'danger')
+        return redirect(url_for('client_dashboard'))
+    db.session.delete(agendamento)
+    db.session.commit()
+    flash('Agendamento cancelado com sucesso!', 'success')
+    return redirect(url_for('client_dashboard'))
 
 @app.route('/edit_cliente/<cpf>', methods=['GET', 'POST'])
 @login_required
@@ -152,17 +222,20 @@ def delete_cliente(cpf):
 def create_profissional():
     form = ProfissionalForm()
     if form.validate_on_submit():
-        profissional = Profissional(
-            cpf=form.cpf.data,
-            nome_completo=form.nome_completo.data,
-            telefone=form.telefone.data,
-            email=form.email.data,
-            especialidade=form.especialidade.data
-        )
-        db.session.add(profissional)
-        db.session.commit()
-        flash('Profissional criado com sucesso!', 'success')
-        return redirect(url_for('admin_dashboard'))
+        if Profissional.query.get(form.cpf.data):
+            flash('Profissional com esse CPF já existe.', 'danger')
+        else:
+            profissional = Profissional(
+                cpf=form.cpf.data,
+                nome_completo=form.nome_completo.data,
+                telefone=form.telefone.data,
+                email=form.email.data,
+                especialidade=form.especialidade.data
+            )
+            db.session.add(profissional)
+            db.session.commit()
+            flash('Profissional criado com sucesso!', 'success')
+            return redirect(url_for('admin_dashboard'))
     return render_template('create_profissional.html', title='Novo Profissional', form=form)
 
 @app.route('/profissionais/<cpf>/editar', methods=['GET', 'POST'])
@@ -175,8 +248,12 @@ def edit_profissional(cpf):
         profissional.telefone = form.telefone.data
         profissional.email = form.email.data
         profissional.especialidade = form.especialidade.data
-        db.session.commit()
-        flash('Profissional atualizado com sucesso!', 'success')
+        try:
+            db.session.commit()
+            flash('Profissional atualizado com sucesso!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao atualizar profissional: {str(e)}', 'danger')
         return redirect(url_for('admin_dashboard'))
     elif request.method == 'GET':
         form.cpf.data = profissional.cpf
@@ -184,7 +261,7 @@ def edit_profissional(cpf):
         form.telefone.data = profissional.telefone
         form.email.data = profissional.email
         form.especialidade.data = profissional.especialidade
-    return render_template('create_profissional.html', title='Editar Profissional', form=form)
+    return render_template('edit_profissional.html', title='Editar Profissional', form=form, profissional=profissional)
 
 @app.route('/profissionais/<cpf>/excluir', methods=['POST'])
 @login_required
@@ -195,22 +272,24 @@ def delete_profissional(cpf):
     flash('Profissional excluído com sucesso!', 'success')
     return redirect(url_for('admin_dashboard'))
 
-
 @app.route('/servicos/novo', methods=['GET', 'POST'])
 @login_required
 def create_servico():
     form = ServicoForm()
     if form.validate_on_submit():
-        servico = Servico(
-            nome_servico=form.nome_servico.data,
-            especialidade=form.especialidade.data,
-            duracao_estimada=form.duracao_estimada.data,
-            valor=form.valor.data
-        )
-        db.session.add(servico)
-        db.session.commit()
-        flash('Serviço criado com sucesso!', 'success')
-        return redirect(url_for('admin_dashboard'))
+        if Servico.query.filter_by(nome_servico=form.nome_servico.data, especialidade=form.especialidade.data).first():
+            flash('Serviço com esse nome e especialidade já existe.', 'danger')
+        else:
+            servico = Servico(
+                nome_servico=form.nome_servico.data,
+                especialidade=form.especialidade.data,
+                duracao_estimada=form.duracao_estimada.data,
+                valor=form.valor.data
+            )
+            db.session.add(servico)
+            db.session.commit()
+            flash('Serviço criado com sucesso!', 'success')
+            return redirect(url_for('admin_dashboard'))
     return render_template('create_servico.html', title='Novo Serviço', form=form)
 
 @app.route('/servicos/<int:id>/editar', methods=['GET', 'POST'])
@@ -223,15 +302,19 @@ def edit_servico(id):
         servico.especialidade = form.especialidade.data
         servico.duracao_estimada = form.duracao_estimada.data
         servico.valor = form.valor.data
-        db.session.commit()
-        flash('Serviço atualizado com sucesso!', 'success')
+        try:
+            db.session.commit()
+            flash('Serviço atualizado com sucesso!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao atualizar serviço: {str(e)}', 'danger')
         return redirect(url_for('admin_dashboard'))
     elif request.method == 'GET':
         form.nome_servico.data = servico.nome_servico
         form.especialidade.data = servico.especialidade
         form.duracao_estimada.data = servico.duracao_estimada
         form.valor.data = servico.valor
-    return render_template('create_servico.html', title='Editar Serviço', form=form)
+    return render_template('edit_servico.html', title='Editar Serviço', form=form, servico=servico)
 
 @app.route('/servicos/<int:id>/excluir', methods=['POST'])
 @login_required
@@ -242,30 +325,10 @@ def delete_servico(id):
     flash('Serviço excluído com sucesso!', 'success')
     return redirect(url_for('admin_dashboard'))
 
-@app.route('/agendamentos/novo', methods=['GET', 'POST'])
-@login_required
-def create_agendamento():
-    form = AgendamentoForm()
-    if form.validate_on_submit():
-        agendamento = Agendamento(
-            cliente_cpf=form.cliente_cpf.data,
-            telefone_cliente=form.telefone_cliente.data,
-            servico_id=form.servico_id.data,
-            especialidade=form.especialidade.data,
-            profissional_cpf=form.profissional_cpf.data,
-            data_agendamento=form.data_agendamento.data,
-            hora_agendamento=form.hora_agendamento.data,
-            valor=form.valor.data
-        )
-        db.session.add(agendamento)
-        db.session.commit()
-        flash('Agendamento criado com sucesso!', 'success')
-        return redirect(url_for('admin_dashboard'))
-    return render_template('create_agendamento.html', title='Novo Agendamento', form=form)
-
+# Renomeando endpoint para evitar conflito
 @app.route('/agendamentos/<int:id>/editar', methods=['GET', 'POST'])
 @login_required
-def edit_agendamento(id):
+def admin_edit_agendamento(id):
     agendamento = Agendamento.query.get_or_404(id)
     form = AgendamentoForm()
     if form.validate_on_submit():
@@ -291,9 +354,12 @@ def edit_agendamento(id):
         form.valor.data = agendamento.valor
     return render_template('create_agendamento.html', title='Editar Agendamento', form=form)
 
+
+
+# Renomeando endpoint para evitar conflito
 @app.route('/agendamentos/<int:id>/excluir', methods=['POST'])
 @login_required
-def delete_agendamento(id):
+def admin_delete_agendamento(id):
     agendamento = Agendamento.query.get_or_404(id)
     db.session.delete(agendamento)
     db.session.commit()

@@ -51,3 +51,4 @@ class Agendamento(db.Model):
     data_agendamento = db.Column(db.Date, nullable=False)
     hora_agendamento = db.Column(db.Time, nullable=False)
     valor = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(64), default='Agendado')  # Adicionar esta linha

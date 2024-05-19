@@ -1,60 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="dashboard-container">
-    <h2>Minha Agenda</h2>
-    <ul>
-        {% for agendamento in agendamentos %}
-            <li>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }} - {{ agendamento.servico.nome_servico }} com {{ agendamento.profissional.nome_completo }}</li>
-        {% endfor %}
-    </ul>
-    <form method="POST" action="{{ url_for('client_dashboard') }}">
-        <div class="form-group">
-            <label for="especialidade">Especialidade:</label>
-            <select id="especialidade" name="especialidade" class="form-control">
-                {% for especialidade in especialidades %}
-                    <option value="{{ especialidade }}">{{ especialidade }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="servico">Serviço:</label>
-            <select id="servico" name="servico" class="form-control">
-                {% for servico in servicos %}
-                    <option value="{{ servico.id }}">{{ servico.nome_servico }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="profissional">Profissional:</label>
-            <select id="profissional" name="profissional" class="form-control">
-                {% for profissional in profissionais %}
-                    <option value="{{ profissional.cpf }}">{{ profissional.nome_completo }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="data">Data:</label>
-            <input type="date" id="data" name="data" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="hora">Hora:</label>
-            <select id="hora" name="hora" class="form-control">
-                <option value="08:00">08:00</option>
-                <option value="09:00">09:00</option>
-                <option value="10:00">10:00</option>
-                <option value="11:00">11:00</option>
-                <option value="12:00">12:00</option>
-                <option value="13:00">13:00</option>
-                <option value="14:00">14:00</option>
-                <option value="15:00">15:00</option>
-                <option value="16:00">16:00</option>
-                <option value="17:00">17:00</option>
-                <option value="18:00">18:00</option>                
-            </select>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn-submit">Agendar</button>
-        </div>
-    </form>
-</div>
+<h2>Meus Agendamentos</h2>
+
+<h3>Agendamentos Abertos</h3>
+<table>
+    <tr>
+        <th>Data e Hora</th>
+        <th>Profissional</th>
+        <th>Serviço</th>
+        <th>Ações</th>
+    </tr>
+    {% for agendamento in agendamentos_abertos %}
+    <tr>
+        <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
+        <td>{{ agendamento.profissional.nome_completo }}</td>
+        <td>{{ agendamento.servico.nome_servico }}</td>
+        <td>
+            <form action="{{ url_for('excluir_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
+                <button type="submit">Cancelar</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Agendamentos Concluídos</h3>
+<table>
+    <tr>
+        <th>Data e Hora</th>
+        <th>Profissional</th>
+        <th>Serviço</th>
+    </tr>
+    {% for agendamento in agendamentos_concluidos %}
+    <tr>
+        <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
+        <td>{{ agendamento.profissional.nome_completo }}</td>
+        <td>{{ agendamento.servico.nome_servico }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{{ url_for('agendar') }}">Agendar Novo Serviço</a>
 {% endblock %}

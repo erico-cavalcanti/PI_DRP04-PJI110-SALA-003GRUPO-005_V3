@@ -64,7 +64,6 @@
     </table>
 
     <h3>Agendamentos</h3>
-    <a href="{{ url_for('create_agendamento') }}" class="btn btn-primary mb-2">Novo Agendamento</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -87,8 +86,7 @@
                     <td>{{ agendamento.servico_id }}</td>
                     <td>{{ agendamento.valor }}</td>
                     <td>
-                        <a href="{{ url_for('edit_agendamento', id=agendamento.id) }}">📝</a>
-                        <form action="{{ url_for('delete_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
+                        <form action="{{ url_for('admin_delete_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
                             <button type="submit" style="background:none;border:none;color:red;">❌</button>
                         </form>
                     </td>

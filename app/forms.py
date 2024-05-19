@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, SelectField, FloatField, TimeField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, SelectField, TimeField, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from app.models import Cliente
+from app.models import Cliente, Profissional, Servico, Agendamento
 
 class RegistrationForm(FlaskForm):
     nome_completo = StringField('Nome Completo', validators=[DataRequired(), Length(min=2, max=100)])
@@ -76,12 +76,13 @@ class ServicoForm(FlaskForm):
     submit = SubmitField('Salvar')
 
 class AgendamentoForm(FlaskForm):
-    cliente_cpf = StringField('CPF do Cliente', validators=[DataRequired(), Length(min=11, max=11)])
-    telefone_cliente = StringField('Telefone do Cliente', validators=[DataRequired()])
-    servico_id = StringField('ID do Serviço', validators=[DataRequired()])
-    especialidade = StringField('Especialidade', validators=[DataRequired(), Length(min=2, max=100)])
-    profissional_cpf = StringField('CPF do Profissional', validators=[DataRequired(), Length(min=11, max=11)])
-    data_agendamento = DateField('Data do Agendamento', validators=[DataRequired()])
-    hora_agendamento = TimeField('Hora do Agendamento', validators=[DataRequired()])
-    valor = FloatField('Valor', validators=[DataRequired()])
-    submit = SubmitField('Salvar')
+    data_agendamento = DateField('Data', validators=[DataRequired()])
+    hora_agendamento = TimeField('Hora', validators=[DataRequired()])
+    profissional = SelectField('Profissional', coerce=str, validators=[DataRequired()])
+    servico = SelectField('Serviço', coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Agendar')
+
+    def __init__(self):
+        super().__init__()
+        self.profissional.choices = [(p.cpf, p.nome_completo) for p in Profissional.query.all()]
+        self.servico.choices = [(s.id, s.nome_servico) for s in Servico.query.all()]

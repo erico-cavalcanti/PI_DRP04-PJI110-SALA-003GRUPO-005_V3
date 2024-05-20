@@ -49,6 +49,7 @@ def login():
         if current_user.email == admin_email:
             return redirect(url_for('admin_dashboard'))
         return redirect(url_for('client_dashboard'))
+    
     form = LoginForm()
     if form.validate_on_submit():
         cliente = Cliente.query.filter_by(usuario=form.usuario.data).first()
@@ -60,6 +61,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('client_dashboard'))
         else:
             flash('Login não autorizado. Por favor verifique usuário e senha', 'danger')
+    
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/forgot_password', methods=['GET', 'POST'])

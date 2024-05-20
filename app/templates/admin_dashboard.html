@@ -23,9 +23,9 @@
                     <td>{{ profissional.telefone }}</td>
                     <td>{{ profissional.email }}</td>
                     <td>
-                        <a href="{{ url_for('edit_profissional', cpf=profissional.cpf) }}">📝</a>
+                        <a href="{{ url_for('edit_profissional', cpf=profissional.cpf) }}" class="btn-action">📝</a>
                         <form action="{{ url_for('delete_profissional', cpf=profissional.cpf) }}" method="post" style="display:inline;">
-                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                            <button type="submit" class="btn-action btn-delete">❌</button>
                         </form>
                     </td>
                 </tr>
@@ -53,9 +53,9 @@
                     <td>{{ servico.duracao_estimada }}</td>
                     <td>{{ servico.valor }}</td>
                     <td>
-                        <a href="{{ url_for('edit_servico', id=servico.id) }}">📝</a>
+                        <a href="{{ url_for('edit_servico', id=servico.id) }}" class="btn-action">📝</a>
                         <form action="{{ url_for('delete_servico', id=servico.id) }}" method="post" style="display:inline;">
-                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                            <button type="submit" class="btn-action btn-delete">❌</button>
                         </form>
                     </td>
                 </tr>
@@ -87,7 +87,7 @@
                     <td>{{ agendamento.valor }}</td>
                     <td>
                         <form action="{{ url_for('admin_delete_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
-                            <button type="submit" style="background:none;border:none;color:red;">❌</button>
+                            <button type="submit" class="btn-action btn-delete">❌</button>
                         </form>
                     </td>
                 </tr>

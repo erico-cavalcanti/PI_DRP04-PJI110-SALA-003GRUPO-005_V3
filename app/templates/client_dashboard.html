@@ -1,44 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Meus Agendamentos</h2>
+<div class="dashboard-container">
+    <h2>Meus Agendamentos</h2>
+    <a href="{{ url_for('agendar') }}" class="btn btn-primary">Agendar Novo Serviço</a>
+    <h3>Agendamentos Abertos</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data e Hora</th>
+                <th>Profissional</th>
+                <th>Serviço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos_abertos %}
+            <tr>
+                <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
+                <td>{{ agendamento.profissional.nome_completo }}</td>
+                <td>{{ agendamento.servico.nome_servico }}</td>
+                <td>
+                    <form action="{{ url_for('excluir_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-action btn-delete">Cancelar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<h3>Agendamentos Abertos</h3>
-<table>
-    <tr>
-        <th>Data e Hora</th>
-        <th>Profissional</th>
-        <th>Serviço</th>
-        <th>Ações</th>
-    </tr>
-    {% for agendamento in agendamentos_abertos %}
-    <tr>
-        <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
-        <td>{{ agendamento.profissional.nome_completo }}</td>
-        <td>{{ agendamento.servico.nome_servico }}</td>
-        <td>
-            <form action="{{ url_for('excluir_agendamento', id=agendamento.id) }}" method="post" style="display:inline;">
-                <button type="submit">Cancelar</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+    <h3>Agendamentos Concluídos</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data e Hora</th>
+                <th>Profissional</th>
+                <th>Serviço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos_concluidos %}
+            <tr>
+                <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
+                <td>{{ agendamento.profissional.nome_completo }}</td>
+                <td>{{ agendamento.servico.nome_servico }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<h3>Agendamentos Concluídos</h3>
-<table>
-    <tr>
-        <th>Data e Hora</th>
-        <th>Profissional</th>
-        <th>Serviço</th>
-    </tr>
-    {% for agendamento in agendamentos_concluidos %}
-    <tr>
-        <td>{{ agendamento.data_agendamento }} {{ agendamento.hora_agendamento }}</td>
-        <td>{{ agendamento.profissional.nome_completo }}</td>
-        <td>{{ agendamento.servico.nome_servico }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-<a href="{{ url_for('agendar') }}">Agendar Novo Serviço</a>
+    
+</div>
 {% endblock %}

@@ -6,11 +6,30 @@
     <title>Salão de Beleza</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            let alerts = document.querySelectorAll('.flash-messages .alert');
+            alerts.forEach(alert => alert.remove());
+        }, 5000); // Remove after 5 seconds
+    });
+</script>
+{% endblock %}
 <body>
     <header>
         <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo do Salão" class="logo">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        <nav class="main-nav">
+            <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('client_dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="nav-link btn-logout">Logout</a>
+        </nav>
+        {% else %}
+        <nav class="main-nav">
+            <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+            <a href="{{ url_for('register') }}" class="nav-link">Registrar</a>
+        </nav>
         {% endif %}
     </header>
     <main>

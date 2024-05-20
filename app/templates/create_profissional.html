@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="form-container">
+<div class="cadastro-container">
     <h2>Cadastrar Profissional</h2>
     <form method="POST" action="{{ url_for('create_profissional') }}">
         {{ form.hidden_tag() }}
@@ -20,7 +20,7 @@
             {{ form.especialidade.label }} {{ form.especialidade(class="form-control") }}
         </div>
         <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
+            {{ form.submit(class="btn btn-submit") }}
         </div>
     </form>
 </div>

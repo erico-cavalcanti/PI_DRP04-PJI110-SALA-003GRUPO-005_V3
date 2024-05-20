@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Agendar Serviço</h2>
-<form method="POST" action="{{ url_for('agendar') }}">
-    {{ form.hidden_tag() }}
-    <div>
-        {{ form.data_agendamento.label }} {{ form.data_agendamento }}
-    </div>
-    <div>
-        {{ form.hora_agendamento.label }} {{ form.hora_agendamento }}
-    </div>
-    <div>
-        {{ form.profissional.label }} {{ form.profissional }}
-    </div>
-    <div>
-        {{ form.servico.label }} {{ form.servico }}
-    </div>
-    <div>
-        {{ form.submit }}
-    </div>
-</form>
+<div class="agendamento-container">
+    <h2>Agendar Serviço</h2>
+    <form method="POST" action="{{ url_for('agendar') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.data_agendamento.label }} {{ form.data_agendamento(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.hora_agendamento.label }} {{ form.hora_agendamento(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.profissional.label }} {{ form.profissional(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.servico.label }} {{ form.servico(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-submit") }}
+        </div>
+    </form>
+</div>
 {% endblock %}

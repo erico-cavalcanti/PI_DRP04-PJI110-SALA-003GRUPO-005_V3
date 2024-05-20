@@ -6,9 +6,10 @@ Projeto desenvolvido para a disciplina de Projeto Integrador I da UNIVESP no Pri
 ## Funcionalidades
 
 - Cadastro de clientes
-- Cadastro de Profissionais
+- CRUD de Profissionais
+- CRUD de Serviços
 - Agendamento de serviços
-- Gestão de Agenda
+- Funcionalidades de login / recuperação de senha 
 
 ## Tecnologias utilizadas
 
@@ -22,15 +23,20 @@ Projeto desenvolvido para a disciplina de Projeto Integrador I da UNIVESP no Pri
 ## Como executar o projeto
 
 1. Clone este repositório em sua máquina local.
-2. Instale as dependências do projeto com "pip install -r ./requirements.txt"
+2. Crie um virtual enviroment: python -m venv venv
+2. Instale as dependências do projeto: pip install -r ./requirements.txt
 3. Certifique que possua o postgreSQL intalado localmente.
-4. Crie um database conforme: "postgresql://postgres:senha123@localhost:5432/salao_de_beleza"
-5. Execute "python run.py"
-6. Execute o servidor local no navegador.
+4. Crie um database chamado pi_salao_anc
+5. Execute dentro da pasta do projeto: 
+    flask db init 
+    flask db migrate
+    flask db upgrade
+5. Execute: python run.py
+6. Acesse via browser: http://127.0.0.1:5000
 
 ## Contribuição
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
+O projeto está fechado e não serão aceitos PRs.
 
 ## Licença
 

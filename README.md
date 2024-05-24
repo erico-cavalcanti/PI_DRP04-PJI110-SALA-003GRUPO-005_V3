@@ -1,43 +1,69 @@
-# Projeto PI Salão de Beleza
+```markdown
+# Projeto Integrador I: Sistema de Gerenciamento para Salão de Beleza
 
-Este é o repositório do projeto PI Salão de Beleza. O objetivo deste projeto é desenvolver um sistema de gerenciamento para um salão de beleza.
-Projeto desenvolvido para a disciplina de Projeto Integrador I da UNIVESP no Primeiro Semestre de 2024.
+Este projeto foi desenvolvido como parte da disciplina DRP04-Projeto Integrador em Computação I-Turma 003 na UNIVESP. O sistema de gerenciamento para salão de beleza permite a administração eficiente de clientes, profissionais e serviços, oferecendo uma interface amigável para agendamento e gestão.
 
 ## Funcionalidades
 
-- Cadastro de clientes
-- CRUD de Profissionais
-- CRUD de Serviços
-- Agendamento de serviços
-- Funcionalidades de login / recuperação de senha 
+- **Cadastro de clientes**: Permite registrar novos clientes com informações detalhadas.
+- **Gestão de Profissionais**: Adicionar, atualizar ou remover informações de profissionais.
+- **Administração de Serviços**: Criar, modificar e excluir serviços oferecidos.
+- **Agendamento de Serviços**: Interface para agendamento fácil de serviços pelos clientes.
+- **Autenticação de Usuários**: Suporte para login seguro e recuperação de senha.
 
-## Tecnologias utilizadas
+## Tecnologias Utilizadas
 
-- Python 3.11
-- Flask
-- PostgreSQL 16
-- HTML
-- CSS
-- JavaScript
+- **Backend**: Python 3.11 com Flask
+- **Database**: PostgreSQL 16
+- **Frontend**: HTML, CSS, JavaScript
+- **Outras**: Flask-Migrate para migrações de banco de dados, Flask-Mail para envio de e-mails, bcrypt para hashing de senhas.
+- **Controle de Versão**: Git e Github
+- **Deployment**: Heroku
 
-## Como executar o projeto
+## Instalação e Configuração
 
-1. Clone este repositório em sua máquina local.
-2. Crie um virtual enviroment: python -m venv venv
-2. Instale as dependências do projeto: pip install -r ./requirements.txt
-3. Certifique que possua o postgreSQL intalado localmente.
-4. Crie um database chamado pi_salao_anc
-5. Execute dentro da pasta do projeto: 
-    flask db init 
-    flask db migrate
-    flask db upgrade
-5. Execute: python run.py
-6. Acesse via browser: http://127.0.0.1:5000
+1. **Clonar o Repositório**:
+   ```bash
+   git clone [URL do repositório]
+   ```
+2. **Configurar Ambiente Virtual**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+3. **Instalar Dependências**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Configurações do Banco de Dados**:
+   - Certifique-se de que o PostgreSQL está instalado e operacional.
+   - Crie um banco de dados chamado `pi_salao_anc`.
+   - Configure as variáveis de ambiente necessárias para conexão.
+   
+5. **Inicializar e Migrar Banco de Dados**:
+   ```bash
+   flask db init
+   flask db migrate
+   flask db upgrade
+   ```
 
-## Contribuição
+6. **Executar a Aplicação**:
+   ```bash
+   python run.py
+   ```
 
-O projeto está fechado e não serão aceitos PRs.
+   Acessar via navegador: `http://127.0.0.1:5000`
+
+## Uso do Sistema
+
+![Tela de login do app](app\static\img\app_ps\login.png) ![Tela admin dashboard](app\static\img\app_ps\admin_dash.png)
+![Tela cliente dashboard](app\static\img\app_ps\client_dash.png)
+
+## Contribuições
+
+Este projeto faz parte de uma iniciativa acadêmica e está fechado para contribuições externas. No entanto, é uma excelente base para estudos e adaptações em projetos similares.
 
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
+```

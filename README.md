@@ -1,4 +1,3 @@
-```markdown
 # Projeto Integrador I: Sistema de Gerenciamento para Salão de Beleza
 
 Este projeto foi desenvolvido como parte da disciplina DRP04-Projeto Integrador em Computação I-Turma 003 na UNIVESP. O sistema de gerenciamento para salão de beleza permite a administração eficiente de clientes, profissionais e serviços, oferecendo uma interface amigável para agendamento e gestão.
@@ -54,11 +53,6 @@ Este projeto foi desenvolvido como parte da disciplina DRP04-Projeto Integrador 
 
    Acessar via navegador: `http://127.0.0.1:5000`
 
-## Uso do Sistema
-
-![Tela de login do app](app\static\img\app_ps\login.png) ![Tela admin dashboard](app\static\img\app_ps\admin_dash.png)
-![Tela cliente dashboard](app\static\img\app_ps\client_dash.png)
-
 ## Contribuições
 
 Este projeto faz parte de uma iniciativa acadêmica e está fechado para contribuições externas. No entanto, é uma excelente base para estudos e adaptações em projetos similares.
@@ -66,4 +60,3 @@ Este projeto faz parte de uma iniciativa acadêmica e está fechado para contrib
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
-```
